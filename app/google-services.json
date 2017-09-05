@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "447368307306",
+    "firebase_url": "https://mediccompanionandroid.firebaseio.com",
+    "project_id": "mediccompanionandroid",
+    "storage_bucket": "mediccompanionandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447368307306:android:9d945e96e7221027",
+        "android_client_info": {
+          "package_name": "com.adeyeye.medicalcompanion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "447368307306-dhfipkuf6uvvh0hcvrocrmaogac989nn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGVURB-uXZTxiIZULpz7JbLlCRmqLh67Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
