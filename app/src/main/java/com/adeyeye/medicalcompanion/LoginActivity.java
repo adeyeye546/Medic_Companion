@@ -20,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import static com.adeyeye.medicalcompanion.RegisterActivity.DISPLAY_NAME_KEY;
+import static com.adeyeye.medicalcompanion.RegisterActivity.USER_PREFS;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,11 +31,13 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        session = new Session(this);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_email);
         mPasswordView = (EditText) findViewById(R.id.login_password);
@@ -48,6 +53,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        if (session.loggedIn()){
+            startActivity(new Intent(LoginActivity.this, DoctorProfileActivity.class));
+            finish();
+        }
+
         // TODO: Grab an instance of FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
     }
@@ -61,8 +71,8 @@ public class LoginActivity extends AppCompatActivity {
     // Executed when Register button pressed
     public void registerNewUser(View v) {
         Intent intent = new Intent(this, com.adeyeye.medicalcompanion.RegisterActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 
     // TODO: Complete the attemptLogin() method
@@ -85,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                     showErrorDialog("There was a problem signing in");
 
                 }else {
+                    session.setLoggedIn(true);
                     Intent intent = new Intent(LoginActivity.this, DoctorProfileActivity.class);
                     startActivity(intent);
                     finish();

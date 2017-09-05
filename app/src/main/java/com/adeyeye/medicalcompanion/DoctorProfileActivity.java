@@ -27,6 +27,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
     private AppCompatEditText mDoctorEmail;
     private EditText mDoctorGender;
     private AppCompatEditText mDoctorPhone;
+    private Session session;
 
 
 
@@ -34,8 +35,17 @@ public class DoctorProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
+        session = new Session(this);
+        if (!session.loggedIn()){
+            logout();
+        }
         initView();
         initModel();
+    }
+    private void logout(){
+        session.setLoggedIn(false);
+        finish();
+        startActivity(new Intent(DoctorProfileActivity.this, LoginActivity.class));
     }
 
     private void initModel() {
