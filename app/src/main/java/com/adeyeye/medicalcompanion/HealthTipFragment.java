@@ -3,9 +3,15 @@ package com.adeyeye.medicalcompanion;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import java.util.Random;
 
 
 /**
@@ -23,7 +29,39 @@ public class HealthTipFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_health_tip, container, false);
+
+        final View rootView = inflater.inflate(R.layout.fragment_health_tip, container, false);
+
+        Button myButton;
+        myButton = (Button) rootView.findViewById(R.id.askButton);
+
+        final ImageView tipDisplay;
+        tipDisplay = (ImageView) rootView.findViewById(R.id.image_healthTip);
+
+        final int[] tipArray = {
+                R.drawable.tip1,
+                R.drawable.tip2,
+                R.drawable.tip3,
+                R.drawable.tip4,
+                R.drawable.tip5,
+                R.drawable.tip6,
+                R.drawable.tip7
+        };
+        myButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d("Medic Companion", "The tip has been pressed");
+                Random randomNumberGenerator = new Random();
+                int number = randomNumberGenerator.nextInt(7);
+
+                tipDisplay.setImageResource(tipArray[number]);
+
+
+            }
+        });
+        return rootView;
     }
+
 
 }

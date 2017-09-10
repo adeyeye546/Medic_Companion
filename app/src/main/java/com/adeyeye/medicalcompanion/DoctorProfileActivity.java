@@ -78,16 +78,11 @@ public class DoctorProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String name = mDoctorName.getText().toString();
-                mDoctorName.setError("Doctor name is required");
                 final String address = mDoctorAddress.getText().toString();
-                mDoctorAddress.setError("Address is required");
                 final String email = mDoctorEmail.getText().toString();
-                mDoctorEmail.setError("Email is required");
                 final String gender = mDoctorGender.getText().toString();
-                mDoctorGender.setError("Gender is required");
                 final  String description = mDescription.getText().toString();
                 final String phoneNum = mDoctorPhone.getText().toString();
-                mDoctorPhone.setError("Phone is required");
                 DatabaseReference currentUser =
                         mUserReference.child(doctor_id);
                 currentUser.child("name").setValue(name);

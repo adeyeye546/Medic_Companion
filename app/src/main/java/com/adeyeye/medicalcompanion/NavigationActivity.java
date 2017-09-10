@@ -3,6 +3,7 @@ package com.adeyeye.medicalcompanion;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -88,7 +89,12 @@ public class NavigationActivity extends AppCompatActivity
             Toast.makeText(this, "Drug", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_healthtip) {
-            Toast.makeText(this, "Health Tips", Toast.LENGTH_SHORT).show();
+            //Fragment Object
+            HealthTipFragment healthTipFragment = new HealthTipFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.relativelayout_for_fragment, healthTipFragment,
+                    healthTipFragment.getTag()).commit();
+            //Toast.makeText(this, "Health Tips", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_manage) {
             Toast.makeText(this, "Tools", Toast.LENGTH_SHORT).show();
