@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.adeyeye.medicalcompanion">
+    
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -36,6 +37,8 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".DoctorProfileActivity">
+        </activity>
+        <activity android:name=".PatientProfileActivity">
         </activity>
     </application>
 

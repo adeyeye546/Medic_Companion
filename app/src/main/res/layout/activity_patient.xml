@@ -8,8 +8,8 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              android:background="@drawable/back"
-              tools:context="com.adeyeye.medicalcompanion.DoctorProfileActivity"
+              android:background="@drawable/back2"
+              tools:context="com.adeyeye.medicalcompanion.PatientProfileActivity"
               android:gravity="top">
 
     <android.support.design.widget.TextInputLayout
@@ -19,11 +19,11 @@
         >
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/doctor_name"
+            android:id="@+id/patient_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
-            android:hint="@string/doc_name"
+            android:hint="@string/patient_name"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:inputType="textNoSuggestions"
@@ -40,19 +40,19 @@
         android:textColorHint="@color/white"
         />
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/doctor_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/address"
-            android:imeOptions="actionNext"
-            android:inputType="textPostalAddress"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textIsSelectable="false"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/patient_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/patient_address"
+        android:imeOptions="actionNext"
+        android:inputType="textPostalAddress"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textIsSelectable="false"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -61,10 +61,10 @@
         >
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/doctor_description"
+            android:id="@+id/patient_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/doctor_description"
+            android:hint="@string/patient_description"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1"
@@ -82,21 +82,21 @@
         android:textColorHint="@color/white"
         >
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/doctor_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/doctor_email"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:imeOptions="actionNext"
-        android:textColorHint="@color/white"
-        android:inputType="textEmailAddress"
-        android:maxLines="1"
-        android:textIsSelectable="false"
-        android:textStyle="bold"/>
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/patient_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/patient_email"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/white"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textIsSelectable="false"
+            android:textStyle="bold"/>
 
-</android.support.design.widget.TextInputLayout>
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -105,14 +105,14 @@
         >
 
         <EditText
-            android:id="@+id/doctor_gender"
+            android:id="@+id/patient_gender"
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:layout_width="match_parent"
             android:imeOptions="actionNext"
             android:layout_height="wrap_content"
-            android:hint="@string/doctor_gender"
+            android:hint="@string/patient_gender"
             android:inputType="textNoSuggestions"
             android:maxLines="1"
             android:textStyle="bold"/>
@@ -128,10 +128,10 @@
         android:textColorHint="@color/white"
         >
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/phone_number"
+            android:id="@+id/patient_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_number"
+            android:hint="@string/patient_phone_number"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:imeOptions="actionNext"
@@ -145,7 +145,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/doctor_save_button"
+        android:id="@+id/patient_save_button"
         style="?android:textAppearanceMedium"
         android:background="@color/white"
         android:textColor="@color/green"
@@ -153,7 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/action_save"
+        android:text="@string/patient_action_save"
         android:textStyle="bold"/>
 
 </LinearLayout>

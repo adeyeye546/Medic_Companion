@@ -1,25 +1,30 @@
 package com.adeyeye.medicalcompanion;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import static android.R.attr.name;
 import static com.adeyeye.medicalcompanion.R.string.address;
+import static com.adeyeye.medicalcompanion.RegisterActivity.USER_PREFS;
 
 public class DoctorProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mUserReferrence;
+    private DatabaseReference mUserReference;
     private String doctor_id;
     private Button mDocSave;
     private AppCompatEditText mDoctorName;
@@ -27,6 +32,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
     private AppCompatEditText mDoctorEmail;
     private EditText mDoctorGender;
     private AppCompatEditText mDoctorPhone;
+    private AppCompatEditText mDescription;
     private Session session;
 
 
@@ -41,6 +47,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         }
         initView();
         initModel();
+
     }
     private void logout(){
         session.setLoggedIn(false);
@@ -48,47 +55,65 @@ public class DoctorProfileActivity extends AppCompatActivity {
         startActivity(new Intent(DoctorProfileActivity.this, LoginActivity.class));
     }
 
+
     private void initModel() {
         Start();
+
     }
 
     private void initView() {
+
         mDoctorName = (AppCompatEditText) findViewById(R.id.doctor_name);
+
+
         mDoctorAddress = (AppCompatEditText) findViewById(R.id.doctor_address);
         mDoctorEmail = (AppCompatEditText) findViewById(R.id.doctor_email);
         mDoctorGender = (EditText)findViewById(R.id.doctor_gender);
         mDoctorPhone = (AppCompatEditText)findViewById(R.id.phone_number);
+        mDescription = (AppCompatEditText)findViewById(R.id.doctor_description);
         mDocSave = (Button) findViewById(R.id.doctor_save_button);
+
 
         mDocSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String name = mDoctorName.getText().toString();
+                mDoctorName.setError("Doctor name is required");
                 final String address = mDoctorAddress.getText().toString();
+                mDoctorAddress.setError("Address is required");
                 final String email = mDoctorEmail.getText().toString();
+                mDoctorEmail.setError("Email is required");
                 final String gender = mDoctorGender.getText().toString();
+                mDoctorGender.setError("Gender is required");
+                final  String description = mDescription.getText().toString();
                 final String phoneNum = mDoctorPhone.getText().toString();
+                mDoctorPhone.setError("Phone is required");
                 DatabaseReference currentUser =
-                        mUserReferrence.child(doctor_id);
+                        mUserReference.child(doctor_id);
                 currentUser.child("name").setValue(name);
                 currentUser.child("address").setValue(address);
                 currentUser.child("email").setValue(email);
                 currentUser.child("gender").setValue(gender);
+                currentUser.child("description").setValue(description);
                 currentUser.child("phoneNumber").setValue(phoneNum);
                 Intent mainIntent = new Intent(getApplicationContext(),
-                        NavigationActivity
+                        PatientProfileActivity
                                 .class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(mainIntent);
+
             }
         });
 
     }
+
     public void Start() {
+
         mAuth = FirebaseAuth.getInstance();
-        mUserReferrence = FirebaseDatabase.getInstance().getReference().child("doctors");
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("doctors");
         //mStorage = FirebaseStorage.getInstance().getReference();
         doctor_id = mAuth.getCurrentUser().getUid();
     }
+
 
 }

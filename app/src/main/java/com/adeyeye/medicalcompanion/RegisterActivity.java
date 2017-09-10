@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private EditText mConfirmPasswordView;
+    private AutoCompleteTextView mAddressView;
 
     // Firebase instance variables
     private FirebaseAuth mAuth;
@@ -47,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.register_password);
         mConfirmPasswordView = (EditText) findViewById(R.id.register_confirm_password);
         mUsernameView = (AutoCompleteTextView) findViewById(R.id.register_username);
+        mAddressView = (AutoCompleteTextView)findViewById(R.id.doctor_address);
 
         // Keyboard sign in action
         mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -136,6 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                     showErrorDialog("Registration attempt failed");
                 }else {
                     saveDisplayName();
+                   // Address();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     finish();
                     startActivity(intent);
@@ -150,6 +154,13 @@ public class RegisterActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(USER_PREFS, 0);
         prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
     }
+
+    // TODO: Save the display name to Shared Preferences
+   /* private void Address(){
+        String Address = mAddressView.getText().toString();
+        SharedPreferences prefs = getSharedPreferences(USER_PREFS, 0);
+        prefs.edit().putString(DISPLAY_NAME_KEY, Address).apply();
+    }*/
 
 
     // TODO: Create an alert dialog to show in case registration failed
