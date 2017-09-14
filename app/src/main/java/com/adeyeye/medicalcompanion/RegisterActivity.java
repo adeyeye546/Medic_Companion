@@ -31,10 +31,10 @@ public class RegisterActivity extends AppCompatActivity {
     // TODO: Add member variables here:
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private AutoCompleteTextView mUsernameView;
+    // private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private EditText mConfirmPasswordView;
-    private AutoCompleteTextView mAddressView;
+   // private AutoCompleteTextView mAddressView;
 
     // Firebase instance variables
     private FirebaseAuth mAuth;
@@ -48,8 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.register_email);
         mPasswordView = (EditText) findViewById(R.id.register_password);
         mConfirmPasswordView = (EditText) findViewById(R.id.register_confirm_password);
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.register_username);
-        mAddressView = (AutoCompleteTextView)findViewById(R.id.doctor_address);
+      //  mUsernameView = (AutoCompleteTextView) findViewById(R.id.register_username);
+       // mAddressView = (AutoCompleteTextView)findViewById(R.id.doctor_address);
 
         // Keyboard sign in action
         mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -150,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     // TODO: Save the display name to Shared Preferences
     private void saveDisplayName(){
-        String displayName = mUsernameView.getText().toString();
+        String displayName = mEmailView.getText().toString();
         SharedPreferences prefs = getSharedPreferences(USER_PREFS, 0);
         prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
     }

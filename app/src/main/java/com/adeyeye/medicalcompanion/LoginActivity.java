@@ -19,6 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static com.adeyeye.medicalcompanion.RegisterActivity.DISPLAY_NAME_KEY;
 import static com.adeyeye.medicalcompanion.RegisterActivity.USER_PREFS;
@@ -32,11 +37,13 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private Session session;
+    private DatabaseReference mDatabaseUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        startCheckUser();
         session = new Session(this);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_email);
@@ -53,13 +60,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        if (session.loggedIn()){
-            startActivity(new Intent(LoginActivity.this, DoctorProfileActivity.class));
-            finish();
-        }
+//        if (session.loggedIn()){
+//            startActivity(new Intent(LoginActivity.this, DoctorProfileActivity.class));
+//            finish();
+//        }
+//
+//        // TODO: Grab an instance of FirebaseAuth
+//        mAuth = FirebaseAuth.getInstance();
+    }
 
-        // TODO: Grab an instance of FirebaseAuth
+    private void startCheckUser() {
         mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("doctors");
+        mDatabaseUsers.keepSynced(true);
+        checkUserExist(mAuth,mDatabaseUsers);
     }
 
     // Executed when Sign in button pressed
@@ -109,6 +124,42 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void checkUserExist(FirebaseAuth mAuth,DatabaseReference mDatabaseUsers) {
+
+        if (mAuth.getCurrentUser() != null) {
+            final String user_id = mAuth.getCurrentUser().getUid();
+
+            mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.hasChild(user_id)) {
+
+                        Intent mainIntent = new Intent(getApplicationContext(), NavigationActivity.class);
+                        mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(mainIntent);
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "You Need to setup your account",
+                                Toast.LENGTH_LONG).show();
+                        Intent setupIntent =
+                                new Intent(getApplicationContext(), DoctorProfileActivity.class);
+                        setupIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(setupIntent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }else{
+//            Intent mIntent = new Intent(getApplicationContext(), LoginActivity.class);
+//            startActivity(mIntent);
+        }
     }
 
 

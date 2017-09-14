@@ -18,17 +18,20 @@
         completions."
     </string>
     <string name="sample_message">Hello!</string>
-    <string name="doc_name">Doctor Name</string>
+    <string name="doctor_name">Doctor Name</string>
+    <string name="doctor_email">Doctor Email</string>
+    <string name="personal_information">Personal Information</string>
     <string name="address">Address</string>
-    <string name="doctor_email">Email</string>
+    <string name="doctor_work_history">Work History</string>
     <string name="doctor_gender">Gender</string>
     <string name="phone_number">Phone</string>
     <string name="action_save">Save</string>
+    <string name="education">Education</string>
 
     <string name="title_activity_navigation">MainActivity</string>
     <string name="patient_name">Patient Name </string>
     <string name="prompt_address">Address</string>
-    <string name="doctor_description">Description</string>
+
 
     <string name="patient_address">Patient Address</string>
     <string name="patient_email">Patient Email</string>

@@ -32,7 +32,7 @@ public class HealthTipFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_health_tip, container, false);
 
-        Button myButton;
+       final Button myButton;
         myButton = (Button) rootView.findViewById(R.id.askButton);
 
         final ImageView tipDisplay;

@@ -22,7 +22,40 @@ public class Session {
         editor.commit();
     }
     public boolean loggedIn(){
+
         return prefs.getBoolean("loggedInmode", false);
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

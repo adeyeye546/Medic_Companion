@@ -15,9 +15,9 @@
             android:icon="@drawable/ic_menu_healthtips"
             android:title="Health_Tips"/>
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_doctor"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools"/>
+            android:title="Doctor"/>
     </group>
 
     <item android:title="Communicate">

@@ -19,11 +19,54 @@
         >
 
         <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/personal_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:hint="@string/personal_information"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textIsSelectable="false"
+            android:textStyle="bold"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        >
+
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/doctor_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
-            android:hint="@string/doc_name"
+            android:hint="@string/doctor_name"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textIsSelectable="false"
+            android:textStyle="bold"/>
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        >
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/doctor_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:hint="@string/doctor_email"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:inputType="textNoSuggestions"
@@ -61,10 +104,10 @@
         >
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/doctor_description"
+            android:id="@+id/education"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/doctor_description"
+            android:hint="@string/education"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1"
@@ -83,10 +126,10 @@
         >
 
     <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/doctor_email"
+        android:id="@+id/doctor_work_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/doctor_email"
+        android:hint="@string/doctor_work_history"
         android:textColor="@color/white"
         android:textSize="25sp"
         android:imeOptions="actionNext"
