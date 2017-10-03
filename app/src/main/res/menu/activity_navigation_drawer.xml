@@ -16,8 +16,12 @@
             android:title="Health_Tips"/>
         <item
             android:id="@+id/nav_doctor"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Doctor"/>
+            android:icon="@drawable/ic_menu_doctor"
+            android:title="Profile"/>
+        <item
+            android:id="@+id/nav_patient"
+            android:icon="@drawable/ic_menu_patient"
+            android:title="Patient"/>
     </group>
 
     <item android:title="Communicate">

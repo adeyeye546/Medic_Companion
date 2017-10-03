@@ -24,7 +24,7 @@ public class Doctor implements Serializable {
 	@SerializedName("phoneNumber")
 	private String phoneNumber;
 
-
+    
 
 
 	public Doctor(){

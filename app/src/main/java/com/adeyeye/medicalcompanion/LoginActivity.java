@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        startCheckUser();
+        //startCheckUser();
         session = new Session(this);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_email);
@@ -60,29 +60,33 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        if (session.loggedIn()){
-//            startActivity(new Intent(LoginActivity.this, DoctorProfileActivity.class));
-//            finish();
-//        }
-//
+        if (session.loggedIn()){
+            startActivity(new Intent(LoginActivity.this, DoctorProfileActivity.class));
+            finish();
+        }
+
 //        // TODO: Grab an instance of FirebaseAuth
-//        mAuth = FirebaseAuth.getInstance();
+       mAuth = FirebaseAuth.getInstance();
     }
 
-    private void startCheckUser() {
+    /*private void startCheckUser() {
         mAuth = FirebaseAuth.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("doctors");
         mDatabaseUsers.keepSynced(true);
-        checkUserExist(mAuth,mDatabaseUsers);
-    }
+       // checkUserExist(mAuth,mDatabaseUsers);
+    }*/
 
     // Executed when Sign in button pressed
     public void signInExistingUser(View v)   {
         // TODO: Call attemptLogin() here
         attemptLogin();
     }
-
+    public void signInExistingPatient(View v) {
+        Intent intent = new Intent(this, com.adeyeye.medicalcompanion.PatientLoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
     // Executed when Register button pressed
     public void registerNewUser(View v) {
         Intent intent = new Intent(this, com.adeyeye.medicalcompanion.RegisterActivity.class);
@@ -126,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void checkUserExist(FirebaseAuth mAuth,DatabaseReference mDatabaseUsers) {
+   /* private void checkUserExist(FirebaseAuth mAuth,DatabaseReference mDatabaseUsers) {
 
         if (mAuth.getCurrentUser() != null) {
             final String user_id = mAuth.getCurrentUser().getUid();
@@ -161,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
 //            startActivity(mIntent);
         }
     }
-
+*/
 
 
     // TODO: Show error on screen with an alert dialog

@@ -31,6 +31,8 @@ public class NavigationActivity extends AppCompatActivity
     private DatabaseReference mUserReference;
     private String doctor_id;
     private Doctor doctor;
+    private String patient_id;
+    private Patient patient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class NavigationActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         Start();
+        /*Play();*/
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -116,9 +119,17 @@ public class NavigationActivity extends AppCompatActivity
             Intent mIntent = new Intent(getApplicationContext(), DoctorProfileActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("edit", "editdoctor");
-            bundle.putSerializable("model",doctor);
+            bundle.putSerializable("model", doctor);
             mIntent.putExtras(bundle);
-           startActivity(mIntent);
+            startActivity(mIntent);
+        }else if (id == R.id.nav_patient){
+            Toast.makeText(this, "Patient", Toast.LENGTH_SHORT).show();
+            Intent mIntent = new Intent(getApplicationContext(), PatientProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("edit", "editpatient");
+            bundle.putSerializable("model", patient);
+            mIntent.putExtras(bundle);
+            startActivity(mIntent);
         } else if (id == R.id.nav_share) {
             Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
 
@@ -136,10 +147,14 @@ public class NavigationActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         mUserReference = FirebaseDatabase.getInstance().getReference().child("doctors");
+       // mUserReference = FirebaseDatabase.getInstance().getReference().child("patients");
         //mStorage = FirebaseStorage.getInstance().getReference();
         doctor_id = mAuth.getCurrentUser().getUid();
+       // patient_id = mAuth.getCurrentUser().getUid();
+
         DatabaseReference
                 userDbRef = FirebaseDatabase.getInstance().getReference("doctors").child(doctor_id);
+      //  DatabaseReference userPbRef = FirebaseDatabase.getInstance().getReference("patients").child(patient_id);
 
         userDbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -152,5 +167,38 @@ public class NavigationActivity extends AppCompatActivity
                 Log.e("Main Activity", "loadname:onCancelled", databaseError.toException());
             }
         });
+       /* userPbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                patient = dataSnapshot.getValue(Patient.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Main Activity", "loadname:onCancelled", databaseError.toException());
+            }
+        });*/
     }
+    /*public void Play(){
+        mAuth = FirebaseAuth.getInstance();
+        mUserReference = FirebaseDatabase.getInstance().getReference().child("patients");
+
+        patient_id = mAuth.getCurrentUser().getUid();
+        // patient_id = mAuth.getCurrentUser().getUid();
+
+        DatabaseReference
+                userDbRef = FirebaseDatabase.getInstance().getReference("patients").child(patient_id);
+        //  DatabaseReference userPbRef = FirebaseDatabase.getInstance().getReference("patients").child(patient_id);
+        userDbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                patient = dataSnapshot.getValue(Patient.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Main Activity", "loadname:onCancelled", databaseError.toException());
+            }
+        });
+    }*/
 }

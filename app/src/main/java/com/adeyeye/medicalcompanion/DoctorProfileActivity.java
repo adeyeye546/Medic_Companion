@@ -1,5 +1,6 @@
 package com.adeyeye.medicalcompanion;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -60,6 +61,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
     private void logout(){
         session.setLoggedIn(false);
         finish();
+        //Bypass DoctorProfileActivity
         startActivity(new Intent(DoctorProfileActivity.this, LoginActivity.class));
     }
 
@@ -106,7 +108,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 currentUser.child("history").setValue(history);
                 currentUser.child("phoneNumber").setValue(phoneNum);
                 Intent mainIntent = new Intent(getApplicationContext(),
-                        PatientProfileActivity
+                        NavigationActivity
                                 .class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(mainIntent);
@@ -145,6 +147,5 @@ public class DoctorProfileActivity extends AppCompatActivity {
         mPersonalInformation.setText(newDoctorModel.getInformation());
         mEmail.setText(newDoctorModel.getEmail());
     }
-
 
 }

@@ -1,7 +1,9 @@
 package com.adeyeye.medicalcompanion;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
@@ -11,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.Random;
 
 
@@ -18,7 +23,6 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class HealthTipFragment extends Fragment {
-
 
     public HealthTipFragment() {
         // Required empty public constructor
@@ -31,6 +35,8 @@ public class HealthTipFragment extends Fragment {
         // Inflate the layout for this fragment
 
         final View rootView = inflater.inflate(R.layout.fragment_health_tip, container, false);
+
+
 
        final Button myButton;
         myButton = (Button) rootView.findViewById(R.id.askButton);
@@ -64,4 +70,7 @@ public class HealthTipFragment extends Fragment {
     }
 
 
+
 }
+
+

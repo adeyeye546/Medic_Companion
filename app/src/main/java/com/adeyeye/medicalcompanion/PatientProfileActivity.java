@@ -23,6 +23,8 @@ public class PatientProfileActivity extends AppCompatActivity {
     private EditText mPatientGender;
     private AppCompatEditText mPatientDescription;
     private AppCompatEditText mPatientPhone;
+    private Patient patient;
+    private Patient mNewPatientModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,5 +77,25 @@ public class PatientProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mPatientReference = FirebaseDatabase.getInstance().getReference().child("patients");
         patient_id = mAuth.getCurrentUser().getUid();
+        Intent intent = getIntent();
+        if (intent.getStringExtra("add") != null){
+            if (intent.getStringExtra("add").equals("addpatient")) {
+                //  mView.SetUpAddDoctor();
+            }
+        } else if (intent.getStringExtra("edit") != null) {
+            mNewPatientModel = (Patient) intent.getSerializableExtra("model");
+            if (intent.getStringExtra("edit").equals("editdoctor")) {
+                SetUpView(mNewPatientModel);
+            }
+    }
+}
+    private void SetUpView(Patient newPatientModel) {
+        mPatientName.setText(newPatientModel.getName());
+        mPatientAddress.setText(newPatientModel.getAddress());
+        mPatientEmail.setText(newPatientModel.getEmail());
+        mPatientGender.setText(newPatientModel.getGender());
+        mPatientDescription.setText(newPatientModel.getDescription());
+        mPatientPhone.setText(newPatientModel.getPhone());
+
     }
 }
