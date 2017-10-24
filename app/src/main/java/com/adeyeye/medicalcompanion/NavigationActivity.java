@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +25,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mUserReference;
+    private DatabaseReference mPatientReference;
     private String doctor_id;
     private Doctor doctor;
     private String patient_id;
@@ -56,7 +61,7 @@ public class NavigationActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         Start();
-        /*Play();*/
+        Play();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -101,9 +106,12 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_disease) {
-            Toast.makeText(this, "Disease", Toast.LENGTH_SHORT).show();
-            // Handle the camera action
+           Intent intent = new Intent(getApplicationContext(), Diseases_listActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_drug) {
+            Intent intent = new Intent(getApplicationContext(), Drug_listActivity.class);
+            startActivity(intent);
             Toast.makeText(this, "Drug", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_healthtip) {
@@ -179,17 +187,17 @@ public class NavigationActivity extends AppCompatActivity
             }
         });*/
     }
-    /*public void Play(){
+    public void Play(){
         mAuth = FirebaseAuth.getInstance();
-        mUserReference = FirebaseDatabase.getInstance().getReference().child("patients");
+        mPatientReference = FirebaseDatabase.getInstance().getReference().child("patients");
 
         patient_id = mAuth.getCurrentUser().getUid();
-        // patient_id = mAuth.getCurrentUser().getUid();
+
 
         DatabaseReference
-                userDbRef = FirebaseDatabase.getInstance().getReference("patients").child(patient_id);
+                userDataRef = FirebaseDatabase.getInstance().getReference("patients").child(patient_id);
         //  DatabaseReference userPbRef = FirebaseDatabase.getInstance().getReference("patients").child(patient_id);
-        userDbRef.addValueEventListener(new ValueEventListener() {
+        userDataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 patient = dataSnapshot.getValue(Patient.class);
@@ -200,5 +208,5 @@ public class NavigationActivity extends AppCompatActivity
                 Log.e("Main Activity", "loadname:onCancelled", databaseError.toException());
             }
         });
-    }*/
+    }
 }

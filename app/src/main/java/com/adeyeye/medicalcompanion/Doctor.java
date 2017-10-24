@@ -105,6 +105,8 @@ public class Doctor implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+
     //	@Exclude
 //	public Map<String, Object> toMap() {
 //		HashMap<String, Object> result = new HashMap<>();

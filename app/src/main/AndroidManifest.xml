@@ -26,11 +26,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".MainListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
-        <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:theme="@style/AppTheme">
@@ -40,6 +35,16 @@
         <activity android:name=".PatientProfileActivity">
         </activity>
         <activity android:name=".PatientLoginActivity">
+        </activity>
+        <activity android:name=".Diseases_listActivity">
+        </activity>
+        <activity android:name=".PatientDiseaseDescription">
+        </activity>
+        <activity android:name=".DiseaseDetailActivity">
+        </activity>
+        <activity android:name=".DrugDetailActivity">
+        </activity>
+        <activity android:name=".Drug_listActivity">
         </activity>
     </application>
 

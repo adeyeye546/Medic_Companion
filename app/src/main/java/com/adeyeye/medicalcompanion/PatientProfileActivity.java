@@ -35,7 +35,7 @@ public class PatientProfileActivity extends AppCompatActivity {
         initView();
     }
     private void initModel() {
-        start();
+        Start();
 
     }
     private void initView(){
@@ -66,14 +66,14 @@ public class PatientProfileActivity extends AppCompatActivity {
                currentPatient.child("description").setValue(description);
                currentPatient.child("phone").setValue(phone);
 
-               Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+               Intent intent = new Intent(getApplicationContext(), PatientDiseaseDescription.class);
                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                startActivity(intent);
            }
        });
 
     }
-    public void start(){
+    public void Start(){
         mAuth = FirebaseAuth.getInstance();
         mPatientReference = FirebaseDatabase.getInstance().getReference().child("patients");
         patient_id = mAuth.getCurrentUser().getUid();
