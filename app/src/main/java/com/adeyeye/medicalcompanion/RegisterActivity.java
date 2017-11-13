@@ -93,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void attemptRegistration() {
 
+
         // Reset errors displayed in the form.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -131,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
             createFirebaseUser();
         }
     }
+
 
     private boolean isEmailValid(String email) {
         // You can add more checking logic here.

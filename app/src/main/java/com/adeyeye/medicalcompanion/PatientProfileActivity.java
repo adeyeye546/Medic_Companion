@@ -66,7 +66,7 @@ public class PatientProfileActivity extends AppCompatActivity {
                currentPatient.child("description").setValue(description);
                currentPatient.child("phone").setValue(phone);
 
-               Intent intent = new Intent(getApplicationContext(), PatientDiseaseDescription.class);
+               Intent intent = new Intent(getApplicationContext(), BlankActivity.class);
                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                startActivity(intent);
            }

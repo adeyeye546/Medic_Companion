@@ -46,6 +46,8 @@
         </activity>
         <activity android:name=".Drug_listActivity">
         </activity>
+        <activity android:name=".BlankActivity">
+        </activity>
     </application>
 
 </manifest>

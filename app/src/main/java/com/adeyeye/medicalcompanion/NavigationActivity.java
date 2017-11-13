@@ -1,5 +1,6 @@
 package com.adeyeye.medicalcompanion;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -124,7 +125,7 @@ public class NavigationActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_doctor) {
             Toast.makeText(this, "Doctor", Toast.LENGTH_SHORT).show();
-            Intent mIntent = new Intent(getApplicationContext(), DoctorProfileActivity.class);
+            Intent mIntent = new Intent(getApplicationContext(), BlankActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("edit", "editdoctor");
             bundle.putSerializable("model", doctor);

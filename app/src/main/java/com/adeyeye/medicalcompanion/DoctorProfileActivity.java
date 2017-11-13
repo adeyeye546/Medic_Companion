@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import static android.R.attr.description;
 import static android.R.attr.name;
 import static com.adeyeye.medicalcompanion.R.string.address;
+import static com.adeyeye.medicalcompanion.R.string.doctor_name;
 import static com.adeyeye.medicalcompanion.RegisterActivity.USER_PREFS;
 
 public class DoctorProfileActivity extends AppCompatActivity {
@@ -50,25 +52,24 @@ public class DoctorProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
+
         session = new Session(this);
-        if (!session.loggedIn()){
-            logout();
-        }
+
         initView();
         initModel();
 
     }
     private void logout(){
         session.setLoggedIn(false);
+       // startActivity(new Intent(DoctorProfileActivity.this, NavigationActivity.class));
+
         finish();
-        //Bypass DoctorProfileActivity
-        startActivity(new Intent(DoctorProfileActivity.this, LoginActivity.class));
+
     }
 
 
     private void initModel() {
         Start();
-
     }
 
     private void initView() {
@@ -89,6 +90,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         mDocSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String information = mPersonalInformation.getText().toString();
                 final String address = mDoctorAddress.getText().toString();
                 final String education = mEducation.getText().toString();
@@ -107,8 +109,12 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 currentUser.child("gender").setValue(gender);
                 currentUser.child("history").setValue(history);
                 currentUser.child("phoneNumber").setValue(phoneNum);
-                Intent mainIntent = new Intent(getApplicationContext(),
-                        NavigationActivity
+                if (!session.loggedIn()){
+                    startActivity(new Intent(DoctorProfileActivity.this, NavigationActivity.class));
+                    logout();
+                }
+
+                Intent mainIntent = new Intent(getApplicationContext(),BlankActivity
                                 .class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(mainIntent);
@@ -117,6 +123,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     public void Start() {
 
