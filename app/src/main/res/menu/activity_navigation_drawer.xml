@@ -27,9 +27,11 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:title="Logout"/>
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

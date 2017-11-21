@@ -52,9 +52,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
-
-        session = new Session(this);
-
         initView();
         initModel();
 
@@ -90,7 +87,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
         mDocSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final String information = mPersonalInformation.getText().toString();
                 final String address = mDoctorAddress.getText().toString();
                 final String education = mEducation.getText().toString();
@@ -109,15 +105,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 currentUser.child("gender").setValue(gender);
                 currentUser.child("history").setValue(history);
                 currentUser.child("phoneNumber").setValue(phoneNum);
-                if (!session.loggedIn()){
-                    startActivity(new Intent(DoctorProfileActivity.this, NavigationActivity.class));
-                    logout();
-                }
-
-                Intent mainIntent = new Intent(getApplicationContext(),BlankActivity
-                                .class);
-                mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(mainIntent);
+                startActivity(new Intent(DoctorProfileActivity.this, NavigationActivity.class));
 
             }
         });

@@ -22,6 +22,8 @@ public class PatientProfileActivity extends AppCompatActivity {
     private AppCompatEditText mPatientEmail;
     private EditText mPatientGender;
     private AppCompatEditText mPatientDescription;
+    private AppCompatEditText mUsername;
+    private AppCompatEditText mPassword;
     private AppCompatEditText mPatientPhone;
     private Patient patient;
     private Patient mNewPatientModel;
@@ -30,9 +32,8 @@ public class PatientProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient);
-
-        initModel();
         initView();
+        initModel();
     }
     private void initModel() {
         Start();
@@ -45,6 +46,8 @@ public class PatientProfileActivity extends AppCompatActivity {
         mPatientGender = (EditText)findViewById(R.id.patient_gender);
         mPatientDescription = (AppCompatEditText)findViewById(R.id.patient_description);
         mPatientPhone = (AppCompatEditText)findViewById(R.id.patient_phone_number);
+        mPassword = (AppCompatEditText)findViewById(R.id.patient_password);
+        mUsername = (AppCompatEditText)findViewById(R.id.patient_username);
         mPatientSave = (Button) findViewById(R.id.patient_save_button);
 
        mPatientSave.setOnClickListener(new View.OnClickListener(){
@@ -57,18 +60,21 @@ public class PatientProfileActivity extends AppCompatActivity {
                final String gender = mPatientGender.getText().toString();
                final String description = mPatientDescription.getText().toString();
                final String phone = mPatientPhone.getText().toString();
+               final String username = mUsername.getText().toString();
+               final String password = mPassword.getText().toString();
+               String user_id = mAuth.getCurrentUser().getUid();
 
-               DatabaseReference currentPatient = mPatientReference.child(patient_id);
+               DatabaseReference currentPatient = mPatientReference.child(username);
+               currentPatient.child("doctorId").setValue(user_id);
                currentPatient.child("name").setValue(name);
                currentPatient.child("address").setValue(address);
+               currentPatient.child("password").setValue(password);
+               currentPatient.child("patientId").setValue(username);
                currentPatient.child("email").setValue(email);
                currentPatient.child("gender").setValue(gender);
                currentPatient.child("description").setValue(description);
                currentPatient.child("phone").setValue(phone);
-
-               Intent intent = new Intent(getApplicationContext(), BlankActivity.class);
-               intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-               startActivity(intent);
+               finish();
            }
        });
 

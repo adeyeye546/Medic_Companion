@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,26 +27,44 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseAuth mAuth;
     private DatabaseReference mUserReference;
     private DatabaseReference mPatientReference;
     private String doctor_id;
     private Doctor doctor;
     private String patient_id;
     private Patient patient;
+    private PatientListAdapter mPatientAdapter;
+    private RecyclerView mRecyClerView;
+    LinearLayoutManager mLinLayoutManager;
+    private DatabaseReference mDatabaseUsers;
+    private FirebaseAuth mAuth;
+    private List<PatientsModel> patientList;
+    ArrayList<PatientsModel> entries = new ArrayList<>();
+    private String PatientKey;
+    private Query queryRef;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        initView();
+        initModel();
+
+    }
+
+    private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,21 +72,90 @@ public class NavigationActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               OpenAddPatient();
             }
         });
+        mRecyClerView = (RecyclerView) findViewById(R.id.rec_patient);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        Start();
-        Play();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
+    public void OpenAddPatient() {
+        Intent mIntent = new Intent(getApplicationContext(), PatientProfileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("add", "addpatient");
+        mIntent.putExtras(bundle);
+        startActivity(mIntent);
+    }
+
+    public void SetUpPatientListView(List<PatientsModel> mPatientList) {
+        mPatientAdapter= new PatientListAdapter(getApplicationContext(), mPatientList, new PatientListListener() {
+            @Override
+            public void OnItemClick(PatientsModel model, int p) {
+                OpenEditPatient(model);
+            }
+
+            @Override
+            public void OnItemEcgClick(PatientsModel model, int p) {
+
+        }
+
+    });
+        mLinLayoutManager = new LinearLayoutManager(this);
+        mRecyClerView.setLayoutManager(mLinLayoutManager);
+        mRecyClerView.setAdapter(mPatientAdapter);
+    }
+
+    public void GetPatientList() {
+        doctor_id = mAuth.getCurrentUser().getUid();
+        DatabaseReference userDbRef = FirebaseDatabase.getInstance()
+            .getReferenceFromUrl("https://mediccompanionandroid.firebaseio.com/patients");
+        queryRef = userDbRef.orderByChild("doctorId").equalTo(doctor_id);
+        queryRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                PatientsModel patients = dataSnapshot.getValue(PatientsModel.class);
+                Iterator<DataSnapshot>
+                    items = dataSnapshot.getChildren().iterator();
+                Toast.makeText(getApplicationContext(), "Total Users : " + dataSnapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
+                if (entries != null){
+                    entries.clear();
+                }
+                while (items.hasNext()) {
+                    DataSnapshot item = items.next();
+                    PatientKey =   item.getKey();
+                    PatientsModel user = item.getValue(PatientsModel.class);
+                    entries.add(user);
+                }
+                SetUpPatientListView(entries);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Main Activity", "loadname:onCancelled", databaseError.toException());
+            }
+        });
+    }
+
+    public void OpenEditPatient(PatientsModel model) {
+        Intent mIntent = new Intent(getApplicationContext(), PatientProfileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("edit", "editpatient");
+        bundle.putSerializable("model",model);
+        mIntent.putExtras(bundle);
+        startActivity(mIntent);
+    }
+
+    private void initModel() {
+        Start();
+        GetPatientList();
+       // Play();
     }
 
     @Override
@@ -139,8 +229,8 @@ public class NavigationActivity extends AppCompatActivity
             bundle.putSerializable("model", patient);
             mIntent.putExtras(bundle);
             startActivity(mIntent);
-        } else if (id == R.id.nav_share) {
-            Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_logout) {
+            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_send) {
             Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show();
@@ -156,14 +246,11 @@ public class NavigationActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         mUserReference = FirebaseDatabase.getInstance().getReference().child("doctors");
-       // mUserReference = FirebaseDatabase.getInstance().getReference().child("patients");
-        //mStorage = FirebaseStorage.getInstance().getReference();
         doctor_id = mAuth.getCurrentUser().getUid();
        // patient_id = mAuth.getCurrentUser().getUid();
 
         DatabaseReference
                 userDbRef = FirebaseDatabase.getInstance().getReference("doctors").child(doctor_id);
-      //  DatabaseReference userPbRef = FirebaseDatabase.getInstance().getReference("patients").child(patient_id);
 
         userDbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -176,17 +263,6 @@ public class NavigationActivity extends AppCompatActivity
                 Log.e("Main Activity", "loadname:onCancelled", databaseError.toException());
             }
         });
-       /* userPbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                patient = dataSnapshot.getValue(Patient.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("Main Activity", "loadname:onCancelled", databaseError.toException());
-            }
-        });*/
     }
     public void Play(){
         mAuth = FirebaseAuth.getInstance();

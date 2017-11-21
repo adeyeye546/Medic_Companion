@@ -33,6 +33,48 @@
             android:textStyle="bold"/>
 
     </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        >
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/patient_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/white"
+            android:inputType="textPostalAddress"
+            android:maxLines="1"
+            android:textIsSelectable="false"
+            android:textStyle="bold"/>
+
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        >
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/patient_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/white"
+            android:inputType="textPostalAddress"
+            android:maxLines="1"
+            android:textIsSelectable="false"
+            android:textStyle="bold"/>
+
+
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"

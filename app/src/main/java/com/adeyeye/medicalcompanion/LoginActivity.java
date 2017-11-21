@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,35 +39,70 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private Session session;
     private DatabaseReference mDatabaseUsers;
+    private Button mSignUp;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //startCheckUser();
-        session = new Session(this);
+        initView();
+        initModel();
 
+//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+//                    attemptLogin();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//
+//
+//        if (session.loggedIn()){
+//            startActivity(new Intent(LoginActivity.this, DoctorProfileActivity.class));
+//            finish();
+//        }
+//
+//
+////        // TODO: Grab an instance of FirebaseAuth
+//       mAuth = FirebaseAuth.getInstance();
+    }
+
+    private void initView() {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_email);
         mPasswordView = (EditText) findViewById(R.id.login_password);
-
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mSignUp = (Button) findViewById(R.id.login_sign_in_button);
+        mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+                String email = mEmailView.getText().toString();
+                String password = mPasswordView.getText().toString();
+                mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                // there was an error
+
+                                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
+                            } else
+
+                            {
+                                Intent intent =
+                                    new Intent(getApplicationContext(), NavigationActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
             }
+
         });
 
-        if (session.loggedIn()){
-            startActivity(new Intent(LoginActivity.this, DoctorProfileActivity.class));
-            finish();
-        }
-
-//        // TODO: Grab an instance of FirebaseAuth
-       mAuth = FirebaseAuth.getInstance();
     }
 
     /*private void startCheckUser() {
@@ -78,15 +114,6 @@ public class LoginActivity extends AppCompatActivity {
     }*/
 
     // Executed when Sign in button pressed
-    public void signInExistingUser(View v)   {
-        // TODO: Call attemptLogin() here
-        attemptLogin();
-    }
-    public void signInExistingPatient(View v) {
-        Intent intent = new Intent(this, com.adeyeye.medicalcompanion.PatientLoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
     // Executed when Register button pressed
     public void registerNewUser(View v) {
         Intent intent = new Intent(this, com.adeyeye.medicalcompanion.RegisterActivity.class);
@@ -130,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-   /* private void checkUserExist(FirebaseAuth mAuth,DatabaseReference mDatabaseUsers) {
+    private void checkUserExist(FirebaseAuth mAuth,DatabaseReference mDatabaseUsers) {
 
         if (mAuth.getCurrentUser() != null) {
             final String user_id = mAuth.getCurrentUser().getUid();
@@ -165,7 +192,13 @@ public class LoginActivity extends AppCompatActivity {
 //            startActivity(mIntent);
         }
     }
-*/
+
+    private void initModel() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("doctors");
+        mDatabaseUsers.keepSynced(true);
+    }
+
 
 
     // TODO: Show error on screen with an alert dialog
