@@ -233,6 +233,9 @@ public class NavigationActivity extends AppCompatActivity
             Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_send) {
+            Intent intent = new Intent(NavigationActivity.this, PatientNavigationActivity.class);
+            startActivity(intent);
+            finish();
             Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show();
 
         }
