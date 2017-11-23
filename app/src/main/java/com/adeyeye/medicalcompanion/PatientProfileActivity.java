@@ -26,7 +26,7 @@ public class PatientProfileActivity extends AppCompatActivity {
     private AppCompatEditText mPassword;
     private AppCompatEditText mPatientPhone;
     private Patient patient;
-    private Patient mNewPatientModel;
+    private PatientsModel mNewPatientModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class PatientProfileActivity extends AppCompatActivity {
                currentPatient.child("name").setValue(name);
                currentPatient.child("address").setValue(address);
                currentPatient.child("password").setValue(password);
+               currentPatient.child("username").setValue(password);
                currentPatient.child("patientId").setValue(username);
                currentPatient.child("email").setValue(email);
                currentPatient.child("gender").setValue(gender);
@@ -79,6 +80,8 @@ public class PatientProfileActivity extends AppCompatActivity {
        });
 
     }
+
+
     public void Start(){
         mAuth = FirebaseAuth.getInstance();
         mPatientReference = FirebaseDatabase.getInstance().getReference().child("patients");
@@ -89,19 +92,21 @@ public class PatientProfileActivity extends AppCompatActivity {
                 //  mView.SetUpAddDoctor();
             }
         } else if (intent.getStringExtra("edit") != null) {
-            mNewPatientModel = (Patient) intent.getSerializableExtra("model");
-            if (intent.getStringExtra("edit").equals("editdoctor")) {
+            mNewPatientModel = (PatientsModel) intent.getSerializableExtra("model");
+            if (intent.getStringExtra("edit").equals("editPatient")) {
                 SetUpView(mNewPatientModel);
             }
     }
 }
-    private void SetUpView(Patient newPatientModel) {
+    private void SetUpView(PatientsModel newPatientModel) {
         mPatientName.setText(newPatientModel.getName());
         mPatientAddress.setText(newPatientModel.getAddress());
         mPatientEmail.setText(newPatientModel.getEmail());
         mPatientGender.setText(newPatientModel.getGender());
         mPatientDescription.setText(newPatientModel.getDescription());
         mPatientPhone.setText(newPatientModel.getPhone());
+        //mUsername.setText(newPatientModel);
+        mPassword.setText(newPatientModel.getPassword());
 
     }
 }

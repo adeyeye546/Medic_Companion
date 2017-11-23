@@ -1,7 +1,12 @@
 package com.adeyeye.medicalcompanion;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -54,14 +60,12 @@ public class NavigationActivity extends AppCompatActivity
     private Query queryRef;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         initView();
         initModel();
-
     }
 
     private void initView() {
@@ -98,7 +102,7 @@ public class NavigationActivity extends AppCompatActivity
         mPatientAdapter= new PatientListAdapter(getApplicationContext(), mPatientList, new PatientListListener() {
             @Override
             public void OnItemClick(PatientsModel model, int p) {
-                OpenEditPatient(model);
+               GetDaialogBox(model);
             }
 
             @Override
@@ -146,7 +150,7 @@ public class NavigationActivity extends AppCompatActivity
     public void OpenEditPatient(PatientsModel model) {
         Intent mIntent = new Intent(getApplicationContext(), PatientProfileActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("edit", "editpatient");
+        bundle.putString("edit", "editPatient");
         bundle.putSerializable("model",model);
         mIntent.putExtras(bundle);
         startActivity(mIntent);
@@ -156,6 +160,43 @@ public class NavigationActivity extends AppCompatActivity
         Start();
         GetPatientList();
        // Play();
+    }
+
+    private void GetDaialogBox(final PatientsModel model){
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View deleteDialogView = factory.inflate(R.layout.custom_menu, null);
+        deleteDialogView.findViewById(R.id.edt_patient).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenEditPatient(model);
+            }
+        });
+        deleteDialogView.findViewById(R.id.diag_patience).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent mIntent = new Intent(getApplicationContext(), PatientDiseaseDescription.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("add", "addform");
+                    bundle.putSerializable("patient",model);
+                    mIntent.putExtras(bundle);
+                    startActivity(mIntent);
+
+            }
+        });
+
+        deleteDialogView.findViewById(R.id.Check_patient_diag_list).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PatientFormListActivity.class);
+                intent.putExtra("model",model);
+                startActivity(intent);
+
+            }
+        });
+        final AlertDialog deleteDialog = new AlertDialog.Builder(this).create();
+        deleteDialog.setView(deleteDialogView);
+
+        deleteDialog.show();
     }
 
     @Override
@@ -215,12 +256,12 @@ public class NavigationActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_doctor) {
             Toast.makeText(this, "Doctor", Toast.LENGTH_SHORT).show();
-            Intent mIntent = new Intent(getApplicationContext(), BlankActivity.class);
+            Intent mIntent = new Intent(getApplicationContext(), DoctorProfileActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("edit", "editdoctor");
             bundle.putSerializable("model", doctor);
             mIntent.putExtras(bundle);
-            startActivity(mIntent);
+           startActivity(mIntent);
         }else if (id == R.id.nav_patient){
             Toast.makeText(this, "Patient", Toast.LENGTH_SHORT).show();
             Intent mIntent = new Intent(getApplicationContext(), PatientProfileActivity.class);
@@ -230,7 +271,7 @@ public class NavigationActivity extends AppCompatActivity
             mIntent.putExtras(bundle);
             startActivity(mIntent);
         } else if (id == R.id.nav_logout) {
-            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+            doLogOut();
 
         } else if (id == R.id.nav_send) {
             Intent intent = new Intent(NavigationActivity.this, PatientNavigationActivity.class);
@@ -243,6 +284,28 @@ public class NavigationActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void showAlertDialogueLogOut(){
+        AlertDialog.Builder dialog= new AlertDialog.Builder(this);
+        dialog.setTitle("Logout");
+        dialog.setMessage("Successfully loged out");
+        dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent moveToMain = new Intent(getApplicationContext(), LoginActivity.class);
+                moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                moveToMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(moveToMain);
+                finish();
+            }
+        });
+        dialog.show();
+    }
+
+    private void doLogOut() {
+        showAlertDialogueLogOut();
     }
 
     public void Start() {
